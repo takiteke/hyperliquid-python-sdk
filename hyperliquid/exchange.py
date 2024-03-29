@@ -70,6 +70,7 @@ class Exchange(API):
             "nonce": nonce,
             "signature": signature,
             "vaultAddress": self.vault_address,
+            "isFrontend": True,
         }
         logging.debug(payload)
         return self.post("/exchange", payload)
@@ -202,7 +203,7 @@ class Exchange(API):
         # Get aggressive Market Price
         px = self._slippage_price(coin, is_buy, slippage, px)
         # Market Order is an aggressive Limit Order IoC
-        return self.order(coin, is_buy, sz, px, order_type={"limit": {"tif": "Ioc"}}, reduce_only=False, cloid=cloid)
+        return self.order(coin, is_buy, sz, px, order_type={"limit": {"tif": "FrontendMarket"}}, reduce_only=False, cloid=cloid)
 
     def market_close(
         self,
